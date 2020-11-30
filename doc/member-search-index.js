@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"alumni_system","c":"AlumniSystem","l":"AlumniSystem()","url":"%3Cinit%3E()"},{"p":"alumni_system","c":"AlumniSystem","l":"registerNewGrad(String, String)","url":"registerNewGrad(java.lang.String,java.lang.String)"},{"p":"alumni_system","c":"AlumniSystem","l":"shecodesLogin(String, String)","url":"shecodesLogin(java.lang.String,java.lang.String)"}]
