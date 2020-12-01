@@ -7,8 +7,8 @@ public class Main {
 	public static void main(String[] args) {
 		
 //		gradTest();
-//		alumniTest();
-		courseTest();
+		alumniTest();
+//		courseTest();
 	}
 	
 	static void gradTest() {

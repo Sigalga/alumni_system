@@ -11,7 +11,17 @@ public class AlumniSystem {
 	private ArrayList<Course> courseList = new ArrayList<Course>();
 	
 	AlumniSystem() {
-//		courseList.
+		initCourseList();
+	}
+	
+	private void initCourseList() {
+		courseList.add(new Course("Java Basics"));
+		courseList.add(new Course("Android"));
+		courseList.add(new Course("Basics Python"));
+		courseList.add(new Course("Data Analysis"));
+		courseList.add(new Course("Python for Programmers"));
+		courseList.add(new Course("Web"));
+		courseList.add(new Course("React"));
 	}
 	
 	public void registerNewGrad(String firstName, String lastName) {
@@ -118,16 +128,17 @@ public class AlumniSystem {
 		
 		case(4):
 			System.out.println("Choose a course to add:");
-			
+			printCourseList();
+			choice = in.nextInt();
+			grad.addCourse(courseList.get(choice));
 		}
-//		protected void addCourse(Course course) {
-//			resume.add(course);
-//		}
-//		protected void addCourse(String courseName) {
-//			resume.add(new Course(courseName));
-//		}
-
-		
+	}
+	
+	private void printCourseList() {
+		for (Course course : courseList) {
+			System.out.println(course.getCourseCode() + " " +
+								course.getCourseName());
+		}
 	}
 	
 	private boolean shouldOfferJob(Grad grad, Job job) {

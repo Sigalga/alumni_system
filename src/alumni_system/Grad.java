@@ -157,7 +157,6 @@ public class Grad {
 		return str;
 	}
 
-	
 	// returns true if <other> has the same type and ID as self
 	public boolean equals(Object other) {
 		boolean similar = other instanceof Grad;
