@@ -63,7 +63,7 @@ public class AlumniSystem {
 		System.out.println("Wrong username");
 		return false;
 	}
-
+	
 	private boolean authentic(Grad grad, String password) {
 		
 		boolean authentic = grad.correctPassword(password);
@@ -78,14 +78,6 @@ public class AlumniSystem {
 		return authentic;
 	}
 
-	private void changePassword(Grad grad) {
-		
-			System.out.println("Please enter a new password");
-			Scanner in = new Scanner(System.in);
-			String newPassword = in.nextLine();
-			grad.setPassword(newPassword);	
-	}
-	
 	private void login(Grad grad) {
 		viewProfile(grad);
 		editProfile(grad);
@@ -96,15 +88,20 @@ public class AlumniSystem {
 	}
 	
 	private void editProfile(Grad grad) {
+		
+		// print menu
 		System.out.println("select a field to edit:\n" +
 				"1 - change password\n" +
 				"2 - set LinkedIn page\n" +
 				"3 - set job hunting status\n" +
 				"4 - add a completed course\n"
 				);
+		
+		// receive menu choice
 		Scanner in = new Scanner(System.in);
 		int choice = in.nextInt();
 		
+		// operate according to choice
 		switch (choice) {
 		case (1):
 			changePassword(grad);
@@ -116,21 +113,51 @@ public class AlumniSystem {
 			break;
 			
 		case (3):
-			System.out.println("Choose a status:");
-			for (JobHuntStat stat : JobHuntStat.values()) {
-				System.out.println(stat.getStatCode() + " - " + stat);
-			}
-			
-			int statCode = in.nextInt();
-			grad.setStatus(statCode);
-			viewProfile(grad);
+			changeStatus(grad);
 			break;
 		
 		case(4):
-			System.out.println("Choose a course to add:");
-			printCourseList();
+			changeCourses(grad);
+			break;
+		}
+	}
+	
+	private void changePassword(Grad grad) {
+		
+		System.out.println("Please enter a new password");
+		Scanner in = new Scanner(System.in);
+		grad.setPassword(in.nextLine());
+	}
+
+	private void changeStatus(Grad grad) {
+		
+		System.out.println("Choose a status:");
+		for (JobHuntStat stat : JobHuntStat.values()) {
+			System.out.println(stat.getStatCode() + " - " + stat);
+		}
+		
+		Scanner in = new Scanner(System.in);
+		int statCode = in.nextInt();
+		grad.setStatus(statCode);
+	}
+
+	private void changeCourses(Grad grad) {
+		System.out.println("Choose courses to add by typing their numbers, or '0' to finish:");
+		printCourseList();
+		
+		Course course;
+		Scanner in = new Scanner(System.in);
+		int choice = in.nextInt();
+		while (0 != choice) {
+			try {
+				course = courseList.get(choice);
+				grad.addCourse(course);					
+				System.out.println(course.getCourseName() + " added");
+			} catch (IndexOutOfBoundsException ex) {
+				System.out.println("course code does not exist");
+			}
+			
 			choice = in.nextInt();
-			grad.addCourse(courseList.get(choice));
 		}
 	}
 	
@@ -140,6 +167,8 @@ public class AlumniSystem {
 								course.getCourseName());
 		}
 	}
+	
+	////////
 	
 	private boolean shouldOfferJob(Grad grad, Job job) {
 		return true;

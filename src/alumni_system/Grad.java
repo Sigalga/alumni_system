@@ -38,9 +38,9 @@ public class Grad {
 	// init methods /////////////////////////////////////////////////
 	
 	/**
-	 * returns an object with auto-generated ID and OTP
-	 * @param firstName - the first name
-	 * @param lastName
+	 * Creates an object with auto-generated ID and OTP
+	 * @param firstName - grad's first name
+	 * @param lastName - grad's last name
 	 */
 	protected Grad(String firstName, String lastName) {
 		this.id = generateId(firstName, lastName);
@@ -51,17 +51,20 @@ public class Grad {
 	}
 	
 	/**
-	 * returns the string: "<firsName>.<lastName>.she-codes"
-	 * @param firstName
-	 * @param lastName
-	 * @return
+	 * Creates an ID string based on grad's name
+	 * @param firstName - grad's first name
+	 * @param lastName - grad's last name
+	 * @return the string: "<firsName>.<lastName>.she-codes"
 	 */
 	private String generateId(String firstName, String  lastName) {
 		String newId = new String(firstName + "." + lastName + ".she-codes");
 		return newId;
 	}
 	
-	// returns an array of 8 randomized alphanumeric chars
+	/**
+	 * Generates a random OTP (one time password)
+	 * @return an array of 8 randomized alphanumeric chars
+	 */
 	private char[] generateOtp() {
 		char[] otp = new char[8];
 		Random rnd = new Random();
@@ -89,7 +92,7 @@ public class Grad {
 	
 	// adds a new course to Grad's resume
 	protected void addCourse(Course course) {
-		resume.add(course);
+			resume.add(course);
 	}
 	protected void addCourse(String courseName) {
 		resume.add(new Course(courseName));
@@ -112,14 +115,18 @@ public class Grad {
 			}
 		}
 	}
-	// getter methods //////////8/////////////////////////////////////
+	
+	// getter methods ///////////////////////////////////////////////
 	
 	// returns true if <id> is same as object's
 	protected boolean match(String id) {
 		return id.equals(this.id);
 	}
 	
-	// returns true if <password> is correct
+	/**
+	 * @param password - private password to access Grad data
+	 * @return true if <password> is correct
+	 */
 	protected boolean correctPassword(String password) {
 		return password.equals(this.password);
 	}
