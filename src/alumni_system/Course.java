@@ -13,6 +13,11 @@ public class Course {
 		courseCode = instanceCounter;
 	}
 	
+	public Course(Course other) {
+		this.courseName = other.getCourseName();
+		this.courseCode = other.getCourseCode();
+	}
+	
 	/**
 	 * @return a numeric unique course code
 	 */

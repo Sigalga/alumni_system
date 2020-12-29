@@ -1,19 +1,19 @@
 package alumni_system;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-
-import alumni_system.Grad.JobHuntStat;
 
 public class AlumniSystem {
+	private ArrayList<Course> courseList = new ArrayList<Course>();
 	private ArrayList<Grad> registered = new ArrayList<Grad>();
 	private ArrayList<Grad> gradList = new ArrayList<Grad>();
-	private ArrayList<Course> courseList = new ArrayList<Course>();
 	
 	AlumniSystem() {
 		initCourseList();
 	}
 	
+	/**
+	 * Adds default courses to the courseList
+	 */
 	private void initCourseList() {
 		courseList.add(new Course("Java Basics"));
 		courseList.add(new Course("Android"));
@@ -24,23 +24,32 @@ public class AlumniSystem {
 		courseList.add(new Course("React"));
 	}
 	
+	// Grad operations /////////////////////////////////////////////
+	// pre-login operations ////////////////////////////////////////
+	
 	public void registerNewGrad(String firstName, String lastName) {
 		
 		// make a Grad object
-		Grad newGrad = new Grad(firstName, lastName);
+		Grad newGrad = new Grad(firstName, lastName, this);
 		
 		// add to list
 		registered.add(newGrad);
 	}
 	
+	/**
+	 * Gives user an access to a Grad's data based on Grad identification and authentication
+	 * @param id - unique Grad username
+	 * @param password - secret Grad password
+	 * @return true if login is successful
+	 */
 	public boolean shecodesLogin(String id, String password) {
 		
 		// first login of a registered user
 		for (Grad grad : registered ) {	
 			if (grad.match(id)) {
-				if (authentic(grad, password)) {
-					changePassword(grad);
-					login(grad);
+				if (grad.authentic(password)) {
+					grad.changePassword();
+					grad.login();
 					return true;
 				}
 				else {
@@ -52,8 +61,8 @@ public class AlumniSystem {
 		// login of a registered user
 		for (Grad grad : gradList ) {	
 			if (grad.match(id)) {
-				if (authentic(grad, password)) {
-					login(grad);
+				if (grad.authentic(password)) {
+					grad.login();
 					return true;
 				}
 			}	
@@ -64,114 +73,41 @@ public class AlumniSystem {
 		return false;
 	}
 	
-	private boolean authentic(Grad grad, String password) {
-		
-		boolean authentic = grad.correctPassword(password);
-		
-		if (authentic) {
-			System.out.println("Connecting");
-		}
-		else {
-			System.out.println("Wrong password");
-		}
-		
-		return authentic;
-	}
-
-	private void login(Grad grad) {
-		viewProfile(grad);
-		editProfile(grad);
+	// Course List operations  //////////////////////////////////////
+	
+	protected Course getCourse(int choice) {
+		return new Course(courseList.get(choice));
 	}
 	
-	private void viewProfile(Grad grad) {
-		System.out.println(grad.toString());
-	}
-	
-	private void editProfile(Grad grad) {
-		
-		// print menu
-		System.out.println("select a field to edit:\n" +
-				"1 - change password\n" +
-				"2 - set LinkedIn page\n" +
-				"3 - set job hunting status\n" +
-				"4 - add a completed course\n"
-				);
-		
-		// receive menu choice
-		Scanner in = new Scanner(System.in);
-		int choice = in.nextInt();
-		
-		// operate according to choice
-		switch (choice) {
-		case (1):
-			changePassword(grad);
-			break;
-			
-		case (2):
-			System.out.println("Enter a LinkedIn path:");
-			grad.setLinkedinPage(in.nextLine());
-			break;
-			
-		case (3):
-			changeStatus(grad);
-			break;
-		
-		case(4):
-			changeCourses(grad);
-			break;
-		}
-	}
-	
-	private void changePassword(Grad grad) {
-		
-		System.out.println("Please enter a new password");
-		Scanner in = new Scanner(System.in);
-		grad.setPassword(in.nextLine());
-	}
-
-	private void changeStatus(Grad grad) {
-		
-		System.out.println("Choose a status:");
-		for (JobHuntStat stat : JobHuntStat.values()) {
-			System.out.println(stat.getStatCode() + " - " + stat);
-		}
-		
-		Scanner in = new Scanner(System.in);
-		int statCode = in.nextInt();
-		grad.setStatus(statCode);
-	}
-
-	private void changeCourses(Grad grad) {
-		System.out.println("Choose courses to add by typing their numbers, or '0' to finish:");
-		printCourseList();
-		
-		Course course;
-		Scanner in = new Scanner(System.in);
-		int choice = in.nextInt();
-		while (0 != choice) {
-			try {
-				course = courseList.get(choice);
-				grad.addCourse(course);					
-				System.out.println(course.getCourseName() + " added");
-			} catch (IndexOutOfBoundsException ex) {
-				System.out.println("course code does not exist");
-			}
-			
-			choice = in.nextInt();
-		}
-	}
-	
-	private void printCourseList() {
+	protected void printCourseList() {
 		for (Course course : courseList) {
 			System.out.println(course.getCourseCode() + " " +
 								course.getCourseName());
 		}
 	}
 	
-	////////
+	// Job operations ///////////////////////////////////////////////
 	
-	private boolean shouldOfferJob(Grad grad, Job job) {
-		return true;
+	/**
+	 * Sends job to all relevant grads
+	 * @param job - a Job object
+	 */
+	public void postJob(Job job) {
+		for (Grad grad : gradList) {
+			if (shouldOfferJob(grad, job)) {
+				grad.addJob(job);
+			}
+		}
 	}
 	
+	/**
+	 * Checks if a job can be relevant for a grad
+	 * @param grad - a Grad object
+	 * @param job - a Job object
+	 * @return true if job is relevant to grad
+	 */
+	private boolean shouldOfferJob(Grad grad, Job job) {
+		return	grad.openForJobs() &
+				grad.inResume(job.getRqmnts());
+	}
 }

@@ -3,17 +3,24 @@ package alumni_system;
 import java.util.Scanner;
 
 public class Main {
-
+	
+	static Scanner in = new Scanner(System.in);
+	
 	public static void main(String[] args) {
 		
 //		gradTest();
-		alumniTest();
+//		alumniTest();
 //		courseTest();
+		jobTest();
+//		guiTest();
+		
+		in.close();
 	}
 	
 	static void gradTest() {
+		AlumniSystem alSys = new AlumniSystem();
 		
-		Grad lulu = new Grad("Lulu", "Benlulu");
+		Grad lulu = new Grad("Lulu", "Benlulu", alSys);
 		System.out.println(lulu.toString());
 		
 		lulu.setLinkedinPage("linkedin.com/lulu");
@@ -24,8 +31,8 @@ public class Main {
 		
 		System.out.println(lulu.toString());
 		
-		Grad lulu2 = new Grad("Lulu", "Benlulu");
-		Grad lala = new Grad("Lala", "Abulala");
+		Grad lulu2 = new Grad("Lulu", "Benlulu", alSys);
+		Grad lala = new Grad("Lala", "Abulala", alSys);
 		
 		System.out.println(lulu.equals(lulu2));
 		System.out.println(lulu.equals(lala));
@@ -38,19 +45,7 @@ public class Main {
 		alSys.registerNewGrad("Rita", "Pita");
 		alSys.registerNewGrad("Bilha", "Mashawsha");
 		
-		Scanner in = new Scanner(System.in);
-		
-		boolean loggedIn;
-		String id, password;
-		
-		do {
-			System.out.println("Enter username:");
-			id = in.nextLine();
-			System.out.println("Enter password: ");
-			password = in.nextLine();
-			loggedIn = alSys.shecodesLogin(id, password);
-			
-		} while (!loggedIn);
+		loginUI(alSys);
 	}
 
 	static void courseTest() {
@@ -68,6 +63,43 @@ public class Main {
 			System.out.println(courseList[i].getCourseCode() + " " +
 								courseList[i].getCourseName());
 		}
+	}
+
+	static void jobTest() {
+		AlumniSystem alSys = new AlumniSystem();
+		alSys.registerNewGrad("Tzipi", "Shakshouka");
+
+		Course course1 = new Course("Java Basics");
+		Job job1 = new Job("Junior Java developer");
+		job1.addCourse(course1);
+		
+		Job job2 = new Job("Fire Juggler");
+		
+		alSys.postJob(job1);
+		alSys.postJob(job2);
+		
+		loginUI(alSys);
+		
+	}
+
+	static void guiTest() {
+		new GUI();
+	}
+	
+	static void loginUI(AlumniSystem alSys) {
+		
+		boolean loggedIn;
+		String id, password;
+		
+		do {
+			System.out.println("Enter username:");
+			id = in.nextLine();
+			System.out.println("Enter password: ");
+			password = in.nextLine();
+			loggedIn = alSys.shecodesLogin(id, password);
+			
+		} while (!loggedIn);
+
 	}
 }
 
