@@ -24,7 +24,6 @@ public class AlumniSystem {
 		courseList.add(new Course("React"));
 	}
 	
-	// Grad operations /////////////////////////////////////////////
 	// pre-login operations ////////////////////////////////////////
 	
 	public void registerNewGrad(String firstName, String lastName) {
@@ -33,6 +32,9 @@ public class AlumniSystem {
 		Grad newGrad = new Grad(firstName, lastName, this);
 		
 		// add to list
+		registered.add(newGrad);
+	}
+	public void registerNewGrad(Grad newGrad) {	
 		registered.add(newGrad);
 	}
 	
@@ -48,8 +50,12 @@ public class AlumniSystem {
 		for (Grad grad : registered ) {	
 			if (grad.match(id)) {
 				if (grad.authentic(password)) {
+					
 					grad.changePassword();
 					grad.login();
+					gradList.add(grad);
+					registered.remove(grad);
+					
 					return true;
 				}
 				else {
@@ -72,7 +78,11 @@ public class AlumniSystem {
 		System.out.println("Wrong username");
 		return false;
 	}
-	
+	public boolean shecodesLogin(Grad grad) {
+		gradList.add(grad);
+		registered.remove(grad);
+		return true;
+	}
 	// Course List operations  //////////////////////////////////////
 	
 	protected Course getCourse(int choice) {

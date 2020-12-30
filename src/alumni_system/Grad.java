@@ -268,7 +268,6 @@ public class Grad {
 		System.out.println("Please enter a new password");
 		Scanner in = new Scanner(System.in);
 		setPassword(in.nextLine());
-//		in.close();
 	}
 	protected void changeStatus() {
 		

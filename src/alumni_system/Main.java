@@ -11,8 +11,8 @@ public class Main {
 //		gradTest();
 //		alumniTest();
 //		courseTest();
-		jobTest();
-//		guiTest();
+//		jobTest();
+		guiTest();
 		
 		in.close();
 	}
@@ -67,18 +67,50 @@ public class Main {
 
 	static void jobTest() {
 		AlumniSystem alSys = new AlumniSystem();
-		alSys.registerNewGrad("Tzipi", "Shakshouka");
-
-		Course course1 = new Course("Java Basics");
-		Job job1 = new Job("Junior Java developer");
-		job1.addCourse(course1);
 		
-		Job job2 = new Job("Fire Juggler");
+		Course courseJava = new Course("Java Basics");
+		Course courseWeb = new Course("Web");
 		
-		alSys.postJob(job1);
-		alSys.postJob(job2);
+		// Zehava took Java
+		Grad gradZehava = new Grad("Zehava", "Baklava", alSys);
+		gradZehava.addCourse(courseJava);
+		gradZehava.setStatus(Grad.JobHuntStat.OPEN);
+		gradZehava.viewProfile();
 		
-		loginUI(alSys);
+		// Debb took Java & Web
+		Grad gradDebb = new Grad("Debb", "Sahleb", alSys);
+		gradDebb.addCourse(courseJava);
+		gradDebb.addCourse(courseWeb);
+		gradDebb.setStatus(Grad.JobHuntStat.OPEN);
+		gradDebb.viewProfile();
+		
+		// Both open up for jobs, register and login to system
+		alSys.registerNewGrad(gradZehava);
+		alSys.registerNewGrad(gradDebb);
+		alSys.shecodesLogin(gradZehava);
+		alSys.shecodesLogin(gradDebb);
+		
+		// Javaist and Webist positions are posted in system
+		Job jobJavaist = new Job("Junior Java developer");
+		jobJavaist.addCourse(courseJava);
+		alSys.postJob(jobJavaist);
+		
+		Job jobWebist = new Job("Java Web developer");
+		jobWebist.addCourse(courseJava);
+		jobWebist.addCourse(courseWeb);
+		alSys.postJob(jobWebist);
+		
+		// Zehava stops receiving job offers
+		gradZehava.setStatus(Grad.JobHuntStat.IDLE);
+		
+		// Juggler position is posted in system (no requirements)
+		Job jobJuggler = new Job("Fire Juggler");
+		alSys.postJob(jobJuggler);
+		
+		// Zehava is only offered Javaist
+		gradZehava.viewProfile();
+		// Debb is offered Javaist, Webist and Fire Juggler
+		gradDebb.viewProfile();
 		
 	}
 
