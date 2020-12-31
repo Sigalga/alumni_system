@@ -3,9 +3,9 @@ package alumni_system;
 import java.util.ArrayList;
 
 public class AlumniSystem {
-	private ArrayList<Course> courseList = new ArrayList<Course>();
-	private ArrayList<Grad> registered = new ArrayList<Grad>();
-	private ArrayList<Grad> gradList = new ArrayList<Grad>();
+	private ArrayList<Course> courseList =	new ArrayList<Course>();
+	private ArrayList<Grad> registered =	new ArrayList<Grad>();
+	private ArrayList<Grad> gradList =		new ArrayList<Grad>();
 	
 	AlumniSystem() {
 		initCourseList();
@@ -34,7 +34,7 @@ public class AlumniSystem {
 		// add to list
 		registered.add(newGrad);
 	}
-	public void registerNewGrad(Grad newGrad) {	
+	protected void registerNewGrad(Grad newGrad) {	
 		registered.add(newGrad);
 	}
 	
@@ -50,12 +50,7 @@ public class AlumniSystem {
 		for (Grad grad : registered ) {	
 			if (grad.match(id)) {
 				if (grad.authentic(password)) {
-					
 					grad.changePassword();
-					grad.login();
-					gradList.add(grad);
-					registered.remove(grad);
-					
 					return true;
 				}
 				else {
@@ -78,11 +73,19 @@ public class AlumniSystem {
 		System.out.println("Wrong username");
 		return false;
 	}
-	public boolean shecodesLogin(Grad grad) {
+	protected boolean shecodesLogin(Grad grad) {
 		gradList.add(grad);
 		registered.remove(grad);
 		return true;
 	}
+	
+	protected void firstLogin(Grad grad) {
+		System.out.println("first login");
+		gradList.add(grad);
+		registered.remove(grad);
+		grad.login();
+	}
+	
 	// Course List operations  //////////////////////////////////////
 	
 	protected Course getCourse(int choice) {

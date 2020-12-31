@@ -28,13 +28,17 @@ public class Grad {
 	
 	// members //////////////////////////////////////////////////////
 	
+	private AlumniSystem alSys;
+	private Scanner in =				new Scanner(System.in);
+	private ChangePasswordGUI chPassGui =
+										new ChangePasswordGUI(this);
+	
 	private String id;
-	private String password = new String(generateOtp());
-	private ArrayList<Course> resume = new ArrayList<Course>();
+	private String password =			new String(generateOtp());
 	private String linkedinPage;
-	private JobHuntStat status = JobHuntStat.IDLE;
-	private ArrayList<Job> jobOffers = new ArrayList<Job>();
-	private AlumniSystem alsys;
+	private JobHuntStat status =		JobHuntStat.IDLE;
+	private ArrayList<Course> resume =	new ArrayList<Course>();
+	private ArrayList<Job> jobOffers =	new ArrayList<Job>();
 	
 	// init methods /////////////////////////////////////////////////
 	
@@ -43,9 +47,9 @@ public class Grad {
 	 * @param firstName - grad's first name
 	 * @param lastName - grad's last name
 	 */
-	protected Grad(String firstName, String lastName, AlumniSystem alsys) {
+	protected Grad(String firstName, String lastName, AlumniSystem alSys) {
 		this.id = generateId(firstName, lastName);
-		this.alsys = alsys;
+		this.alSys = alSys;
 		
 		System.out.println("created:");
 		System.out.println(this.id);
@@ -211,8 +215,13 @@ public class Grad {
 	 * @param grad
 	 */
 	public void login() {
+		System.out.println("Logged-in successfully");
 		viewProfile();
-		editProfile();
+//		editProfile();
+	}
+	
+	protected void firstLogin() {
+		alSys.firstLogin(this);
 	}
 	
 	/**
@@ -238,8 +247,9 @@ public class Grad {
 				);
 		
 		// receive menu choice
-		Scanner in = new Scanner(System.in);
-		int choice = in.nextInt();
+//		Scanner in = new Scanner(System.in);
+//		int choice = in.nextInt();
+		int choice = 1; // TEMP STUB
 		
 		// operate according to choice
 		switch (choice) {
@@ -266,8 +276,8 @@ public class Grad {
 	protected void changePassword() {
 		
 		System.out.println("Please enter a new password");
-		Scanner in = new Scanner(System.in);
-		setPassword(in.nextLine());
+		chPassGui.start();
+		
 	}
 	protected void changeStatus() {
 		
@@ -276,7 +286,7 @@ public class Grad {
 			System.out.println(stat.getStatCode() + " - " + stat);
 		}
 		
-		Scanner in = new Scanner(System.in);
+//		Scanner in = new Scanner(System.in);
 		int statCode = in.nextInt();
 		setStatus(statCode);
 		in.close();
@@ -284,14 +294,14 @@ public class Grad {
 	protected void changeCourses() {
 		
 		System.out.println("Choose courses to add by typing their numbers, or '0' to finish:");
-		alsys.printCourseList();
+		alSys.printCourseList();
 
 		Course course;
-		Scanner in = new Scanner(System.in);
+//		Scanner in = new Scanner(System.in);
 		int choice = in.nextInt();
 		while (0 != choice) {
 			try {
-				course = alsys.getCourse(choice);
+				course = alSys.getCourse(choice);
 				addCourse(course);					
 				System.out.println(course.getCourseName() + " added");
 			} catch (IndexOutOfBoundsException ex) {

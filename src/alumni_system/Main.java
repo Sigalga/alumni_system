@@ -115,7 +115,8 @@ public class Main {
 	}
 
 	static void guiTest() {
-		new GUI();
+		new AlumniSystemGUI();
+//		AlumniSystem alSys = new AlumniSystem();
 	}
 	
 	static void loginUI(AlumniSystem alSys) {
