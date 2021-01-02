@@ -28,7 +28,6 @@ public class LoginGUI implements ActionListener {
 	/////////////////////////////////////////////////////////
 	
 	public LoginGUI(AlumniSystem alSys) {
-		
 		this.alSys = alSys;
 		
 		titleLabel.setBounds(10, 20, 165, 25);

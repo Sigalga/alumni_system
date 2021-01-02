@@ -5,20 +5,16 @@ import javax.swing.JPanel;
 
 public class AlumniSystemGUI {
 	
-	protected JFrame frame = new JFrame();
 	protected JPanel panel = new JPanel();
+	protected JFrame frame = new JFrame();
 
 	/////////////////////////////////////////////////////////
 	
 	public AlumniSystemGUI() {
-		initGUI();
-	}
-	
-	protected void initGUI() {
 		initPanel();
 		initFrame();
 	}
-	
+
 	protected void initPanel() {
 		panel.setLayout(null);
 	}

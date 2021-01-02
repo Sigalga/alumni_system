@@ -216,7 +216,7 @@ public class Grad {
 	 * @param grad
 	 */
 	public void showDashboard() {
-		System.out.println("Logged-in successfully into " + id);
+		System.out.println("Grad::showDashboard: Logged-in successfully into " + id);
 		dashboardGui.start();
 		
 		//		viewProfile();
@@ -324,7 +324,7 @@ public class Grad {
 	public String toString() {
 		String str = new String();
 		
-		str += ("id=" + id);
+		str += ("id=" + (null != id ? id : "null"));
 		
 		str += (",\npassword=" + password);
 		

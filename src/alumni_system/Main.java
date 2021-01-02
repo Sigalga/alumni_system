@@ -115,8 +115,9 @@ public class Main {
 	}
 
 	static void guiTest() {
-		new EntranceGUI();
-//		AlumniSystem alSys = new AlumniSystem();
+		AlumniSystem alSys = new AlumniSystem();
+		EntranceGUI entrance = new EntranceGUI(alSys);
+		entrance.start();
 	}
 	
 	static void loginUI(AlumniSystem alSys) {
@@ -135,4 +136,3 @@ public class Main {
 
 	}
 }
-

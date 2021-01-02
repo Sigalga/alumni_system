@@ -26,7 +26,6 @@ public class SignupGUI implements ActionListener {
 	/////////////////////////////////////////////////////////
 	
 	public SignupGUI(AlumniSystem alSys) {
-		
 		this.alSys = alSys;
 		
 		titleLabel.setBounds(290, 20, 165, 25);
@@ -53,63 +52,27 @@ public class SignupGUI implements ActionListener {
 		alSys.registerNewGrad(firstNameStr, lastNameStr);
 	}
 
-
-
-	
 	public JLabel getTitleLabel() {
 		return titleLabel;
 	}
 	public JLabel getFirstNameLabel() {
 		return firstNameLabel;
 	}
-
-
-
-
-
-
 	public JTextField getFirstNameField() {
 		return firstNameField;
 	}
-
-
-
-
-
-
 	public String getFirstNameStr() {
 		return firstNameStr;
 	}
-
-
-
-
-
-
 	public JLabel getLastNameLabel() {
 		return lastNameLabel;
 	}
-
-
-
-
-
-
 	public JTextField getLastNameField() {
 		return lastNameField;
 	}
-
-
-
-
-
-
 	public String getLastNameStr() {
 		return lastNameStr;
 	}
-
-
-
 	public JButton getSignupButton() {
 		return signupButton;
 	}
