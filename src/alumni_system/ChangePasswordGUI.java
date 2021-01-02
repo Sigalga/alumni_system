@@ -24,14 +24,11 @@ public class ChangePasswordGUI implements ActionListener {
 	
 	public ChangePasswordGUI(Grad grad) {
 		this.grad = grad;
-		initGUI();
-	}
-	
-	protected void initGUI() {
+		
 		initPanel();
 		initFrame();
 	}
-	
+
 	protected void initPanel() {
 		
 		panel.setLayout(null);
@@ -49,7 +46,7 @@ public class ChangePasswordGUI implements ActionListener {
 	
 	protected void initFrame() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(400, 90);
+		frame.setSize(400, 150);
 		frame.setTitle("Change Password");
 		frame.setVisible(false);
 		

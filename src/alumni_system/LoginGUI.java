@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 public class LoginGUI implements ActionListener {
 	
 	private AlumniSystem alSys;
+	private EntranceGUI entranceGui;
 	
 	private JLabel titleLabel =		new JLabel("Enter the system:");
 	
@@ -27,8 +28,14 @@ public class LoginGUI implements ActionListener {
 	
 	/////////////////////////////////////////////////////////
 	
-	public LoginGUI(AlumniSystem alSys) {
+	public LoginGUI(AlumniSystem alSys, EntranceGUI entranceGui) {
 		this.alSys = alSys;
+		this.entranceGui = entranceGui;
+		
+		initComponents();
+	}
+	
+	private void initComponents() {
 		
 		titleLabel.setBounds(10, 20, 165, 25);
 		
@@ -52,6 +59,7 @@ public class LoginGUI implements ActionListener {
 		System.out.println("gui login: " + userStr + " " + passwordStr);
 		
 		alSys.shecodesLogin(userStr, passwordStr);
+		entranceGui.stop();
 		
 	}
 	

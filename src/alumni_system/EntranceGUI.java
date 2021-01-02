@@ -9,8 +9,8 @@ public class EntranceGUI {
 	/////////////////////////////////////////////////////////
 	
 	public EntranceGUI(AlumniSystem alSys) {
-		this.login = new LoginGUI((AlumniSystem) alSys);
-		this.signup = new SignupGUI((AlumniSystem) alSys);
+		this.login = new LoginGUI(alSys, this);
+		this.signup = new SignupGUI(alSys);
 		
 		addComponents();
 	}
@@ -37,6 +37,9 @@ public class EntranceGUI {
 	
 	public void start() {
 		gui.start();
+	}
+	public void stop() {
+		gui.stop();
 	}
 
 }

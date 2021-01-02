@@ -211,21 +211,22 @@ public class Grad {
 	
 	// post-login operations ////////////////////////////////////////
 	
+	protected void firstLogin() {
+		alSys.activate(this);
+		showDashboard();
+	}
+	
 	/**
 	 * TEMPORARY FUNCTIONALITY - Grad data read/write operations
 	 * @param grad
 	 */
 	public void showDashboard() {
 		System.out.println("Grad::showDashboard: Logged-in successfully into " + id);
+		
 		dashboardGui.start();
 		
 		//		viewProfile();
 		//		editProfile();
-	}
-	
-	protected void firstLogin() {
-		alSys.activate(this);
-		showDashboard();
 	}
 	
 	/**
