@@ -32,6 +32,7 @@ public class Grad {
 	private Scanner in =				new Scanner(System.in);
 	private ChangePasswordGUI chPassGui =
 										new ChangePasswordGUI(this);
+	private DashboardGUI dashboardGui = new DashboardGUI(this);
 	
 	private String id;
 	private String password =			new String(generateOtp());
@@ -214,14 +215,17 @@ public class Grad {
 	 * TEMPORARY FUNCTIONALITY - Grad data read/write operations
 	 * @param grad
 	 */
-	public void login() {
-		System.out.println("Logged-in successfully");
-		viewProfile();
-//		editProfile();
+	public void showDashboard() {
+		System.out.println("Logged-in successfully into " + id);
+		dashboardGui.start();
+		
+		//		viewProfile();
+		//		editProfile();
 	}
 	
 	protected void firstLogin() {
-		alSys.firstLogin(this);
+		alSys.activate(this);
+		showDashboard();
 	}
 	
 	/**

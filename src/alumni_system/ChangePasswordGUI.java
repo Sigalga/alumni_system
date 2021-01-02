@@ -27,12 +27,12 @@ public class ChangePasswordGUI implements ActionListener {
 		initGUI();
 	}
 	
-	private void initGUI() {
+	protected void initGUI() {
 		initPanel();
 		initFrame();
 	}
 	
-	private void initPanel() {
+	protected void initPanel() {
 		
 		panel.setLayout(null);
 		
@@ -47,7 +47,7 @@ public class ChangePasswordGUI implements ActionListener {
 
 	}
 	
-	private void initFrame() {
+	protected void initFrame() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(400, 90);
 		frame.setTitle("Change Password");
@@ -63,6 +63,7 @@ public class ChangePasswordGUI implements ActionListener {
 		frame.setVisible(false);
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		

@@ -3,9 +3,9 @@ package alumni_system;
 import java.util.ArrayList;
 
 public class AlumniSystem {
-	private ArrayList<Course> courseList =	new ArrayList<Course>();
-	private ArrayList<Grad> registered =	new ArrayList<Grad>();
-	private ArrayList<Grad> gradList =		new ArrayList<Grad>();
+	private ArrayList<Course> courseList =		new ArrayList<Course>();
+	private ArrayList<Grad> registeredGrads =	new ArrayList<Grad>();
+	private ArrayList<Grad> activeGrads =		new ArrayList<Grad>();
 	
 	AlumniSystem() {
 		initCourseList();
@@ -32,10 +32,10 @@ public class AlumniSystem {
 		Grad newGrad = new Grad(firstName, lastName, this);
 		
 		// add to list
-		registered.add(newGrad);
+		registeredGrads.add(newGrad);
 	}
 	protected void registerNewGrad(Grad newGrad) {	
-		registered.add(newGrad);
+		registeredGrads.add(newGrad);
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class AlumniSystem {
 	public boolean shecodesLogin(String id, String password) {
 		
 		// first login of a registered user
-		for (Grad grad : registered ) {	
+		for (Grad grad : registeredGrads) {	
 			if (grad.match(id)) {
 				if (grad.authentic(password)) {
 					grad.changePassword();
@@ -60,10 +60,10 @@ public class AlumniSystem {
 		}
 		
 		// login of a registered user
-		for (Grad grad : gradList ) {	
+		for (Grad grad : activeGrads ) {	
 			if (grad.match(id)) {
 				if (grad.authentic(password)) {
-					grad.login();
+					grad.showDashboard();
 					return true;
 				}
 			}	
@@ -73,17 +73,16 @@ public class AlumniSystem {
 		System.out.println("Wrong username");
 		return false;
 	}
-	protected boolean shecodesLogin(Grad grad) {
-		gradList.add(grad);
-		registered.remove(grad);
-		return true;
-	}
 	
-	protected void firstLogin(Grad grad) {
+	/**
+	 * Allows a registered Grad to enlist as an active user after its first login
+	 * @param grad - a Grad object which exists in <registered> list
+	 */
+	protected void activate(Grad grad) {
 		System.out.println("first login");
-		gradList.add(grad);
-		registered.remove(grad);
-		grad.login();
+		activeGrads.add(grad);
+		registeredGrads.remove(grad);
+		
 	}
 	
 	// Course List operations  //////////////////////////////////////
@@ -106,7 +105,7 @@ public class AlumniSystem {
 	 * @param job - a Job object
 	 */
 	public void postJob(Job job) {
-		for (Grad grad : gradList) {
+		for (Grad grad : activeGrads) {
 			if (shouldOfferJob(grad, job)) {
 				grad.addJob(job);
 			}
