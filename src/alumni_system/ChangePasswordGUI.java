@@ -1,5 +1,6 @@
 package alumni_system;
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,6 +33,7 @@ public class ChangePasswordGUI implements ActionListener {
 	protected void initPanel() {
 		
 		panel.setLayout(null);
+//		panel.setLayout(new FlowLayout());
 		
 		passwordLabel.setBounds(10, 20, 140, 25);
 		passwordField.setBounds(150, 20, 165, 25);
@@ -51,6 +53,7 @@ public class ChangePasswordGUI implements ActionListener {
 		frame.setVisible(false);
 		
 		frame.add(panel);
+//		frame.pack();
 	}
 	
 	protected void start() {

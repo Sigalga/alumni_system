@@ -2,11 +2,20 @@ package alumni_system;
 
 import java.util.Scanner;
 
+import javax.swing.UIManager;
+
 public class Main {
 	
 	static Scanner in = new Scanner(System.in);
 	
 	public static void main(String[] args) {
+		
+//		try { 	  
+//      	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 
+//      } 
+//      catch (Exception e) { 
+//     		System.out.println("Look and Feel not set"); 
+//      } 
 		
 //		gradTest();
 //		alumniTest();

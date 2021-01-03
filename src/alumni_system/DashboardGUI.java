@@ -1,12 +1,26 @@
 package alumni_system;
 
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import javax.swing.JLabel;
+import java.net.URI;
 
 public class DashboardGUI {
 	
 	private AlumniSystemGUI gui =	new AlumniSystemGUI();
 	private JLabel titleLabel =		new JLabel("Welcome");
-	private JLabel profileLabel =	new JLabel();
+	
+	private JLabel idLabel =		new JLabel();
+	private JLabel linkedinTitleLabel =	new JLabel("linkedin page: ");
+	private JLabel linkedinLink =	new JLabel();
+	private JLabel statusTitleLabel = new JLabel("job hunt status: ");
+	private JLabel statusLabel =	new JLabel();
+	
 	private Grad grad;
 	
 	/////////////////////////////////////////////////////////
@@ -20,20 +34,51 @@ public class DashboardGUI {
 
 	protected void initComponents() {
 		
-		titleLabel.setBounds(10, 20, 165, 25);
-		profileLabel.setBounds(10, 50, 165, 25);
+		titleLabel.setBounds(10, 20, 140, 25);
+		
+		idLabel.setBounds(10, 50, 140, 25);
+		
+		linkedinTitleLabel.setBounds(10, 80, 140, 25);
+		linkedinLink.setBounds(150, 80, 165, 25);
+		linkedinLink.setForeground(Color.BLUE.darker());
+		linkedinLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		
+		statusTitleLabel.setBounds(10, 110, 140, 25);
+		statusLabel.setBounds(150, 110, 165, 25);
 		
 	}
 	
 	protected void addComponents() {
 		
 		gui.panel.add(titleLabel);
-		gui.panel.add(profileLabel);
+		
+		gui.panel.add(idLabel);
+		gui.panel.add(linkedinTitleLabel);
+		gui.panel.add(linkedinLink);
+		gui.panel.add(statusTitleLabel);
+		gui.panel.add(statusLabel);
 	}
 	
 	public void start() {
 
-		profileLabel.setText(grad.getId());
+		idLabel.setText(grad.getId());
+		
+		linkedinLink.setText(grad.getLinkedinPage());
+		linkedinLink.addMouseListener(new MouseAdapter() {
+			@Override
+		    public void mouseClicked(MouseEvent e) {
+				try {
+					URI uri = new URI(grad.getLinkedinPage());
+			        Desktop.getDesktop().browse(uri);   
+			    }
+				catch (IOException | URISyntaxException e1) {
+			        e1.printStackTrace();
+			    }
+		    }
+		});
+		
+		statusLabel.setText(grad.getStatus());
+		
 		gui.start();
 	}
 	

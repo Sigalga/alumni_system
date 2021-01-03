@@ -20,7 +20,6 @@ public class Grad {
 	    public int getStatCode() {
 	        return this.statCode;
 	    }
-	    
 	    public int getStat(int statCode) {
 	        return this.statCode;
 	    }
@@ -123,13 +122,27 @@ public class Grad {
 		jobOffers.remove(job);
 	}
 	
-	// setters
+	// getters / setters
+	/**
+	 * Gets this Grad's unique username
+	 * @return a copy of this Grad's id
+	 */
+	protected String getId() {
+		return new String(this.id);
+	}
 	protected void setPassword(String password) {
 		this.password = password;
 	}
 	protected void setLinkedinPage(String path) {
 		this.linkedinPage = path;
-	}	
+	}
+	protected String getLinkedinPage() {
+		String path = new String();
+		if (null != this.linkedinPage) {
+			path = this.linkedinPage;
+		}
+		return path;
+	}
 	protected void setStatus(JobHuntStat status) {
 		this.status = status;
 	}
@@ -140,8 +153,13 @@ public class Grad {
 			}
 		}
 	}
+	protected String getStatus() {
+		String statusStr = new String();
+		statusStr += this.status;
+		return statusStr;
+	}
 	
-	// getter methods ///////////////////////////////////////////////
+	// bool methods ///////////////////////////////////////////////
 	
 	// PERHAPS TURN INTO EQUALS(OTHERGRAD) OVERLOADING
 	/**
@@ -160,14 +178,6 @@ public class Grad {
 	 */
 	protected boolean correctPassword(String password) {
 		return password.equals(this.password);
-	}
-
-	/**
-	 * Gets this Grad's unique username
-	 * @return a copy of this Grad's id
-	 */
-	protected String getId() {
-		return new String(this.id);
 	}
 	
 	/**
@@ -209,7 +219,7 @@ public class Grad {
 		return authentic;
 	}
 	
-	// post-login operations ////////////////////////////////////////
+	// post-login operations ///////////////////////////////////////
 	
 	protected void firstLogin() {
 		alSys.activate(this);
@@ -319,7 +329,7 @@ public class Grad {
 		in.close();
 	}
 
-	// test methods /////////////////////////////////////////////////
+	// test methods ////////////////////////////////////////////////
 	
 	@Override
 	public String toString() {
