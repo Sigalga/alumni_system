@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JRadioButton;
 
 import alumni_system.Grad.JobHuntStat;

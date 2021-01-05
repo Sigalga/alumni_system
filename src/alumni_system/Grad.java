@@ -27,11 +27,11 @@ public class Grad {
 	
 	// members //////////////////////////////////////////////////////
 	
-	private AlumniSystem alSys;
 	private Scanner in =				new Scanner(System.in);
-	private ChangePasswordGUI chPassGui =
-										new ChangePasswordGUI(this);
-	private DashboardGUI dashboardGui = new DashboardGUI(this);
+	
+	private AlumniSystem alSys;
+	private ChangePasswordGUI chPassGui = new ChangePasswordGUI(this);
+	private DashboardGUI dashboardGui;
 	
 	private String id;
 	private String password =			new String(generateOtp());
@@ -48,8 +48,10 @@ public class Grad {
 	 * @param lastName - grad's last name
 	 */
 	protected Grad(String firstName, String lastName, AlumniSystem alSys) {
+		
 		this.id = generateId(firstName, lastName);
 		this.alSys = alSys;
+		dashboardGui = new DashboardGUI(this, alSys.getCourseList());
 		
 		System.out.println("created:");
 		System.out.println(this.id);
@@ -140,11 +142,13 @@ public class Grad {
 		this.linkedinPage = new String(path);
 	}
 	protected String getLinkedinPage() {
-		String path = new String();
-		if (null != this.linkedinPage) {
-			path = this.linkedinPage;
-		}
-		return path;
+//		String path = new String();
+//		if (null != this.linkedinPage) {
+//			path = this.linkedinPage;
+//		}
+//		return path;
+		
+		return new String(this.linkedinPage);
 	}
 	protected void setStatus(JobHuntStat status) {
 		this.status = status;

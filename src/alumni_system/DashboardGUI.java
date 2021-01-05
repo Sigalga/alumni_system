@@ -22,6 +22,7 @@ import java.net.URI;
 public class DashboardGUI {
 	
 	private Grad grad;
+	ArrayList<Course> alSysCourses;	// for editResume start
 	
 	private AlumniSystemGUI gui =	new AlumniSystemGUI();
 	private JLabel titleLabel =		new JLabel("Welcome");
@@ -41,11 +42,13 @@ public class DashboardGUI {
 	
 	private EditLinkedinGUI editLinkedin =	new EditLinkedinGUI();
 	private EditStatusGUI editStatus = 		new EditStatusGUI();
+	private EditResumeGUI editResume =		new EditResumeGUI();
 
 	/////////////////////////////////////////////////////////
 	
-	public DashboardGUI(Grad grad) {
+	public DashboardGUI(Grad grad, ArrayList<Course> alSysCourses) {
 		this.grad = grad;
+		this.alSysCourses = alSysCourses;
 		
 		initComponents();
 		addComponents();
@@ -103,6 +106,10 @@ public class DashboardGUI {
 		gui.panel.add(editStatus.getIdleOption());
 		gui.panel.add(editStatus.getOpenOption());
 		gui.panel.add(editStatus.getHuntingOption());
+	
+		gui.panel.add(editResume.getCourseListScroller());
+		gui.panel.add(editResume.getAddingButton());
+
 	}
 	
 	public void start() {
@@ -112,6 +119,7 @@ public class DashboardGUI {
 		statusLabel.setText(grad.getStatus());
 		editLinkedin.setGrad(grad);
 		editStatus.setGrad(grad);
+		editResume.setCourseListModel(alSysCourses);
 		
 		gui.start();
 	}

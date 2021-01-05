@@ -91,6 +91,9 @@ public class AlumniSystem {
 		return new Course(courseList.get(choice));
 	}
 	
+	protected ArrayList<Course> getCourseList() {
+		return new ArrayList<Course>(this.courseList);
+	}
 	protected void printCourseList() {
 		for (Course course : courseList) {
 			System.out.println(course.getCourseCode() + " " +
