@@ -35,7 +35,7 @@ public class Grad {
 	
 	private String id;
 	private String password =			new String(generateOtp());
-	private String linkedinPage;
+	private String linkedinPage =		new String();
 	private JobHuntStat status =		JobHuntStat.IDLE;
 	private ArrayList<Course> resume =	new ArrayList<Course>();
 	private ArrayList<Job> jobOffers =	new ArrayList<Job>();
@@ -136,6 +136,9 @@ public class Grad {
 	protected void setLinkedinPage(String path) {
 		this.linkedinPage = path;
 	}
+	protected void setLinkedinPage(char[] path) {
+		this.linkedinPage = new String(path);
+	}
 	protected String getLinkedinPage() {
 		String path = new String();
 		if (null != this.linkedinPage) {
@@ -157,6 +160,12 @@ public class Grad {
 		String statusStr = new String();
 		statusStr += this.status;
 		return statusStr;
+	}
+	protected ArrayList<Course> getResume() {
+		
+		 ArrayList<Course> resume = new ArrayList<Course>();
+		 resume = this.resume;
+		 return resume;
 	}
 	
 	// bool methods ///////////////////////////////////////////////

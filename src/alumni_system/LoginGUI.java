@@ -58,9 +58,10 @@ public class LoginGUI implements ActionListener {
 		
 		System.out.println("gui login: " + userStr + " " + passwordStr);
 		
-		alSys.shecodesLogin(userStr, passwordStr);
-		entranceGui.stop();
-		
+		boolean loggedIn = alSys.shecodesLogin(userStr, passwordStr);
+		if (loggedIn) {
+			entranceGui.stop();			
+		}
 	}
 	
 	public JLabel getTitleLabel() {
