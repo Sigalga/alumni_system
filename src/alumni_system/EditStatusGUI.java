@@ -55,6 +55,10 @@ public class EditStatusGUI implements ActionListener {
 
 	}
 	
+	public void start(Grad grad) {
+		setGrad(grad);
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent option) {
 		

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -16,14 +17,13 @@ public class EditResumeGUI implements ActionListener {
 	private Grad grad;
 	
 	private DefaultListModel<String> courseNameModel =	new DefaultListModel<String>();
-	protected JList<String> courseNameList =				new JList<String>(courseNameModel);
-	private JScrollPane courseListScroller =			new JScrollPane(getCourseNameList());
+	protected JList<String> courseNameList =			new JList<String>(courseNameModel);
+	private JScrollPane courseListScroller =			new JScrollPane(courseNameList);
 	
-	private String selectedCourseName = new String();
-	private SharedListSelectionHandler selectionListener = new SharedListSelectionHandler(this);
-	private ListSelectionModel selectionModel;
+	private SharedListSelectionHandler selectionListener =	new SharedListSelectionHandler(this);
+	private ListSelectionModel selectionModel =				courseNameList.getSelectionModel();
 	
-	private JButton addingButton = 						new JButton("add course");	
+	private JButton addingButton = new JButton("add course");	
 	
 	public EditResumeGUI() {
 		initComponents();
@@ -31,32 +31,46 @@ public class EditResumeGUI implements ActionListener {
 
 	protected void initComponents() {
 		
-		getCourseNameList().setBounds(320, 140, 165, 25);
-		getCourseNameList().setLayoutOrientation(JList.VERTICAL);
-		getCourseNameList().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		getCourseNameList().setVisibleRowCount(2);
+		courseNameList.setBounds(320, 140, 165, 25);
+		courseNameList.setLayoutOrientation(JList.VERTICAL);
+		courseNameList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		courseNameList.setVisibleRowCount(2);
 		
 		courseListScroller.setBounds(320, 140, 165, 50);
 		courseListScroller.setPreferredSize(new Dimension(250, 80));
 		
-		selectionModel = getCourseNameList().getSelectionModel();
+		selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		selectionModel.addListSelectionListener(selectionListener);
 		
 		addingButton.setBounds(490, 140, 120, 25);
 		addingButton.addActionListener(this);
 
 	}
+	
+	public void start(Grad grad, ArrayList<Course> courseList) {
+		setGrad(grad);
+		setCourseNameModel(courseList);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("EditResumeGUI::actionPerformed");
-//		grad.addCourse(courseName);
+		
+		String selectedCourseName = selectionListener.getSelectedValue();
+//		System.out.println("EditResumeGUI::actionPerformed" + selectedCourseName );
+		
+		if (!selectedCourseName.isEmpty() && !grad.nameInResume(selectedCourseName)) {
+			grad.addCourse(selectionListener.getSelectedValue());			
+		}
+//	    System.out.println(grad.toString());
 	}
 	
 	public void setGrad(Grad grad) {
 		this.grad = grad;
 	}
-	public void setCourseListModel(ArrayList<Course> courseList) {
+	public Grad getGrad() {
+		return grad;
+	}
+	public void setCourseNameModel(ArrayList<Course> courseList) {
 		
 		try {
 			for (Course course : courseList) {
@@ -64,6 +78,7 @@ public class EditResumeGUI implements ActionListener {
 			}			
 		}
 		catch (Exception e) {
+			System.out.println("EditResumeGUI::setCourseNameModel");
 		}
 	}
 	public JScrollPane getCourseListScroller() {
@@ -75,6 +90,9 @@ public class EditResumeGUI implements ActionListener {
 
 	public JList<String> getCourseNameList() {
 		return courseNameList;
+	}
+	public ListSelectionModel getListSelectionModel() {
+		return selectionModel;
 	}
 	public void setSelectedCourseName(String courseName) {
 		selectedCourseName = courseName;

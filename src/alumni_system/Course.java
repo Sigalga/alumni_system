@@ -35,5 +35,10 @@ public class Course {
 	public boolean equals(Course other) {
 		return this.courseCode == other.getCourseCode();
 	}
+	
+	public boolean equalName(String courseName) {
+		return this.courseName.equals(courseName);
+	}
+
 
 }

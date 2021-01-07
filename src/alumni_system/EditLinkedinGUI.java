@@ -27,6 +27,10 @@ public class EditLinkedinGUI implements ActionListener {
 		editButton.addActionListener(this);
 	}
 	
+	public void start(Grad grad) {
+		setGrad(grad);
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		grad.setLinkedinPage(linkedinField.getText());

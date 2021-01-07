@@ -113,13 +113,16 @@ public class DashboardGUI {
 	}
 	
 	public void start() {
-
+		
+		// profile view
 		idLabel.setText(grad.getId());
 		startLinkedinLink();
 		statusLabel.setText(grad.getStatus());
-		editLinkedin.setGrad(grad);
-		editStatus.setGrad(grad);
-		editResume.setCourseListModel(alSysCourses);
+		
+		// profile edit
+		editLinkedin.start(grad);
+		editStatus.start(grad);
+		editResume.start(grad, alSysCourses);
 		
 		gui.start();
 	}

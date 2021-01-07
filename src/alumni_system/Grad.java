@@ -203,6 +203,21 @@ public class Grad {
 	}
 	
 	/**
+	 * Checkes a course name to see if resume contains a course with an equal name
+	 * @param courseName = a string to be compared against the name field of a course object
+	 * @return true if courseName matches a course in resume, false if not.
+	 */
+	protected boolean nameInResume(String courseName) {
+		for (Course course : resume) {
+			if (course.equalName(courseName)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Checks Grad's availability to receive job offers 
 	 * @return true if Grad is to receive job offers
 	 */
