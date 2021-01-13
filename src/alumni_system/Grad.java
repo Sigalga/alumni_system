@@ -1,10 +1,10 @@
 package alumni_system;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
-public class Grad {
+public class Grad implements Serializable{
 	
 	public enum JobHuntStat {
 		IDLE(1),
@@ -27,12 +27,8 @@ public class Grad {
 	
 	// members //////////////////////////////////////////////////////
 	
-	private Scanner in =				new Scanner(System.in);
-	
-	private AlumniSystem alSys;
-	private ChangePasswordGUI chPassGui = new ChangePasswordGUI(this);
-	private DashboardGUI dashboardGui;
-	
+	private static final long serialVersionUID = 1L;
+
 	private String id;
 	private String password =			new String(generateOtp());
 	private String linkedinPage =		new String();
@@ -47,11 +43,8 @@ public class Grad {
 	 * @param firstName - grad's first name
 	 * @param lastName - grad's last name
 	 */
-	protected Grad(String firstName, String lastName, AlumniSystem alSys) {
-		
+	protected Grad(String firstName, String lastName) {
 		this.id = generateId(firstName, lastName);
-		this.alSys = alSys;
-		dashboardGui = new DashboardGUI(this, alSys.getCourseList());
 		
 		System.out.println("created:");
 		System.out.println(this.id);
@@ -96,10 +89,10 @@ public class Grad {
 		return otp;
 	}
 	
-	// edit methods /////////////////////////////////////////////////
+	// edit/set/get methods /////////////////////////////////////////////////
 	
 	/**
-	 * Adds a new course to Grad's resume
+	 * Adds/removes course to/from Grad's resume
 	 */
 	protected void addCourse(Course course) {
 			resume.add(course);
@@ -107,7 +100,15 @@ public class Grad {
 	protected void addCourse(String courseName) {
 		resume.add(new Course(courseName));
 	}
-
+	protected void removeCourse(String courseName) {
+		
+		Course course = findInResume(courseName);
+		
+		if (null != course) {
+			resume.remove(course);
+		}
+	}
+	
 	/**
 	 * Adds a new Job to Grad's jobOffers
 	 * @param job - a job offer object
@@ -116,30 +117,8 @@ public class Grad {
 		jobOffers.add(job);
 	}
 
-	/**
-	 * Removes a Job from Grad's jobOffers
-	 * @param job - a job offer object
-	 */
-	protected void refuseJob(Job job) {
-		jobOffers.remove(job);
-	}
-	
-	// getters / setters
-	/**
-	 * Gets this Grad's unique username
-	 * @return a copy of this Grad's id
-	 */
 	protected String getId() {
 		return new String(this.id);
-	}
-	protected void setPassword(String password) {
-		this.password = password;
-	}
-	protected void setLinkedinPage(String path) {
-		this.linkedinPage = path;
-	}
-	protected void setLinkedinPage(char[] path) {
-		this.linkedinPage = new String(path);
 	}
 	protected String getLinkedinPage() {
 //		String path = new String();
@@ -149,16 +128,6 @@ public class Grad {
 //		return path;
 		
 		return new String(this.linkedinPage);
-	}
-	protected void setStatus(JobHuntStat status) {
-		this.status = status;
-	}
-	protected void setStatus(int statCode) {
-		for (JobHuntStat stat : JobHuntStat.values()) {
-			if (statCode == stat.getStatCode()) {
-				this.status = stat;
-			}
-		}
 	}
 	protected String getStatus() {
 		String statusStr = new String();
@@ -170,6 +139,26 @@ public class Grad {
 		 ArrayList<Course> resume = new ArrayList<Course>();
 		 resume = this.resume;
 		 return resume;
+	}
+	
+	protected void setPassword(String password) {
+		this.password = password;
+	}
+	protected void setLinkedinPage(String path) {
+		this.linkedinPage = path;
+	}
+	protected void setLinkedinPage(char[] path) {
+		this.linkedinPage = new String(path);
+	}
+	protected void setStatus(JobHuntStat status) {
+		this.status = status;
+	}
+	protected void setStatus(int statCode) {
+		for (JobHuntStat stat : JobHuntStat.values()) {
+			if (statCode == stat.getStatCode()) {
+				this.status = stat;
+			}
+		}
 	}
 	
 	// bool methods ///////////////////////////////////////////////
@@ -198,16 +187,16 @@ public class Grad {
 	 * @param courses - a container of course objects
 	 * @return true if all <courses> items are in resume
 	 */
-	protected boolean inResume(ArrayList<Course> courses) {
+	protected boolean isInResume(ArrayList<Course> courses) {
 		return resume.containsAll(courses);
 	}
 	
 	/**
-	 * Checkes a course name to see if resume contains a course with an equal name
+	 * Checks a course name to see if resume contains a course with an equal name
 	 * @param courseName = a string to be compared against the name field of a course object
 	 * @return true if courseName matches a course in resume, false if not.
 	 */
-	protected boolean nameInResume(String courseName) {
+	protected boolean isInResume(String courseName) {
 		for (Course course : resume) {
 			if (course.equalName(courseName)) {
 				return true;
@@ -218,10 +207,25 @@ public class Grad {
 	}
 	
 	/**
+	 * Checks a course name to see if resume contains a course with an equal name
+	 * @param courseName = a string to be compared against the name field of a course object
+	 * @return a reference to the matching Course object, otherwise null
+	 */
+	protected Course findInResume(String courseName) {
+		for (Course course : resume) {
+			if (course.equalName(courseName)) {
+				return course;
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Checks Grad's availability to receive job offers 
 	 * @return true if Grad is to receive job offers
 	 */
-	public boolean openForJobs() {
+	public boolean isOpenForJobs() {
 		return	JobHuntStat.OPEN == this.status |
 				JobHuntStat.HUNTING == this.status;
 	}
@@ -245,116 +249,6 @@ public class Grad {
 		}
 		
 		return authentic;
-	}
-	
-	// post-login operations ///////////////////////////////////////
-	
-	protected void firstLogin() {
-		alSys.activate(this);
-		showDashboard();
-	}
-	
-	/**
-	 * TEMPORARY FUNCTIONALITY - Grad data read/write operations
-	 * @param grad
-	 */
-	public void showDashboard() {
-		System.out.println("Grad::showDashboard: Logged-in successfully into " + id);
-		
-		dashboardGui.start();
-		
-		//		viewProfile();
-		//		editProfile();
-	}
-	
-	/**
-	 * Prints a Grad's data to terminal
-	 * @param grad - a Grad object reference
-	 */
-	protected void viewProfile() {
-		System.out.println(toString());
-	}
-	
-	/**
-	 * Prints a menu of edit options, receives and redirects choice
-	 * @param grad - a Grad object reference
-	 */
-	protected void editProfile() {
-		
-		// print menu
-		System.out.println("select a field to edit:\n" +
-				"1 - change password\n" +
-				"2 - set LinkedIn page\n" +
-				"3 - set job hunting status\n" +
-				"4 - add a completed course\n"
-				);
-		
-		// receive menu choice
-//		Scanner in = new Scanner(System.in);
-//		int choice = in.nextInt();
-		int choice = 1; // TEMP STUB
-		
-		// operate according to choice
-		switch (choice) {
-		case (1):
-			changePassword();
-			break;
-			
-		case (2):
-			System.out.println("Enter a LinkedIn path:");
-			setLinkedinPage(in.nextLine());
-			break;
-			
-		case (3):
-			changeStatus();
-			break;
-		
-		case(4):
-			changeCourses();
-			break;
-		}
-		
-		in.close();
-	}
-	protected void changePassword() {
-		
-		System.out.println("Please enter a new password");
-		chPassGui.start();
-		
-	}
-	protected void changeStatus() {
-		
-		System.out.println("Choose a status:");
-		for (JobHuntStat stat : JobHuntStat.values()) {
-			System.out.println(stat.getStatCode() + " - " + stat);
-		}
-		
-//		Scanner in = new Scanner(System.in);
-		int statCode = in.nextInt();
-		setStatus(statCode);
-		in.close();
-	}
-	protected void changeCourses() {
-		
-		System.out.println("Choose courses to add by typing their numbers, or '0' to finish:");
-		alSys.printCourseList();
-
-		Course course;
-//		Scanner in = new Scanner(System.in);
-		int choice = in.nextInt();
-		while (0 != choice) {
-			try {
-				course = alSys.getCourse(choice);
-				addCourse(course);					
-				System.out.println(course.getCourseName() + " added");
-			} catch (IndexOutOfBoundsException ex) {
-				System.out.println("course code does not exist");
-			}
-			
-			choice = in.nextInt();
-		}
-		
-		in.close();
 	}
 
 	// test methods ////////////////////////////////////////////////
@@ -397,6 +291,16 @@ public class Grad {
 		
 		return similar;
 	}
+
+//	@Override
+//	public String toString() {
+//		return "Grad [in=" + in + ", alSys=" + alSys + ", chPassGui=" + chPassGui + ", dashboardGui=" + dashboardGui
+//				+ ", id=" + id + ", password=" + password + ", linkedinPage=" + linkedinPage + ", status=" + status
+//				+ ", resume=" + resume + ", jobOffers=" + jobOffers + "]";
+//	}
+
+	
+
 	
 
 }

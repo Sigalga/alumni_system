@@ -2,8 +2,6 @@ package alumni_system;
 
 import java.util.Scanner;
 
-import javax.swing.UIManager;
-
 public class Main {
 	
 	static Scanner in = new Scanner(System.in);
@@ -22,14 +20,14 @@ public class Main {
 //		courseTest();
 //		jobTest();
 		guiTest();
-		
+//		fileIOTest();
+//		
 		in.close();
 	}
 	
 	static void gradTest() {
-		AlumniSystem alSys = new AlumniSystem();
-		
-		Grad lulu = new Grad("Lulu", "Benlulu", alSys);
+
+		Grad lulu = new Grad("Lulu", "Benlulu");
 		System.out.println(lulu.toString());
 		
 		lulu.setLinkedinPage("linkedin.com/lulu");
@@ -40,8 +38,8 @@ public class Main {
 		
 		System.out.println(lulu.toString());
 		
-		Grad lulu2 = new Grad("Lulu", "Benlulu", alSys);
-		Grad lala = new Grad("Lala", "Abulala", alSys);
+		Grad lulu2 = new Grad("Lulu", "Benlulu");
+		Grad lala = new Grad("Lala", "Abulala");
 		
 		System.out.println(lulu.equals(lulu2));
 		System.out.println(lulu.equals(lala));
@@ -81,17 +79,17 @@ public class Main {
 		Course courseWeb = new Course("Web");
 		
 		// Zehava took Java
-		Grad gradZehava = new Grad("Zehava", "Baklava", alSys);
+		Grad gradZehava = new Grad("Zehava", "Baklava");
 		gradZehava.addCourse(courseJava);
 		gradZehava.setStatus(Grad.JobHuntStat.OPEN);
-		gradZehava.viewProfile();
+		gradZehava.toString();
 		
 		// Debb took Java & Web
-		Grad gradDebb = new Grad("Debb", "Sahleb", alSys);
+		Grad gradDebb = new Grad("Debb", "Sahleb");
 		gradDebb.addCourse(courseJava);
 		gradDebb.addCourse(courseWeb);
 		gradDebb.setStatus(Grad.JobHuntStat.OPEN);
-		gradDebb.viewProfile();
+		gradDebb.toString();
 		
 		// Both open up for jobs, register and login to system
 		alSys.registerNewGrad(gradZehava);
@@ -117,9 +115,9 @@ public class Main {
 		alSys.postJob(jobJuggler);
 		
 		// Zehava is only offered Javaist
-		gradZehava.viewProfile();
+		gradZehava.toString();
 		// Debb is offered Javaist, Webist and Fire Juggler
-		gradDebb.viewProfile();
+		gradDebb.toString();
 		
 	}
 
@@ -143,5 +141,10 @@ public class Main {
 			
 		} while (!loggedIn);
 
+	}
+
+	static void fileIOTest() {
+		AlumniSystem alSys = new AlumniSystem();
+		alSys.registerNewGrad("", "");
 	}
 }

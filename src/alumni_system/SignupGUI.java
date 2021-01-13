@@ -11,6 +11,8 @@ public class SignupGUI implements ActionListener {
 	
 	private AlumniSystem alSys;
 	
+	// GUI Components ///////////////////////////////////////
+	
 	private JLabel titleLabel =			new JLabel("New user? Sign up:");
 	
 	private JLabel firstNameLabel = 	new JLabel("first name ");

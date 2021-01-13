@@ -1,6 +1,5 @@
 package alumni_system;
 
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,7 +11,10 @@ import javax.swing.JPasswordField;
 
 public class ChangePasswordGUI implements ActionListener {
 	
+	private AlumniSystem alSys;
 	private Grad grad;
+	
+	// GUI Components ///////////////////////////////////////
 
 	private JFrame frame = new JFrame();
 	private JPanel panel = new JPanel();
@@ -22,19 +24,18 @@ public class ChangePasswordGUI implements ActionListener {
 	private JButton loginButton =	new JButton("Change password");
 	
 	/////////////////////////////////////////////////////////
-	
-	public ChangePasswordGUI(Grad grad) {
-		this.grad = grad;
+
+	public ChangePasswordGUI(AlumniSystem alSys) {
+		this.alSys = alSys;
 		
 		initPanel();
 		initFrame();
 	}
-
+	
 	protected void initPanel() {
 		
 		panel.setLayout(null);
-//		panel.setLayout(new FlowLayout());
-		
+
 		passwordLabel.setBounds(10, 20, 140, 25);
 		passwordField.setBounds(150, 20, 165, 25);
 		loginButton.setBounds(10, 50, 305, 25);
@@ -53,12 +54,13 @@ public class ChangePasswordGUI implements ActionListener {
 		frame.setVisible(false);
 		
 		frame.add(panel);
-//		frame.pack();
 	}
 	
-	protected void start() {
+	protected void start(Grad grad) {
+		this.grad = grad;
 		frame.setVisible(true);
 	}
+	
 	protected void stop() {
 		frame.setVisible(false);
 	}
@@ -71,7 +73,9 @@ public class ChangePasswordGUI implements ActionListener {
 		System.out.println("new password was set");
 		
 		stop();
-		grad.firstLogin();
+		
+		// first login required tasks
+		alSys.firstLogin(grad);
 	}
 	
 }

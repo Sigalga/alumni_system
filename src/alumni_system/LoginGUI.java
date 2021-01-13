@@ -13,6 +13,8 @@ public class LoginGUI implements ActionListener {
 	private AlumniSystem alSys;
 	private EntranceGUI entranceGui;
 	
+	// GUI Components ///////////////////////////////////////
+	
 	private JLabel titleLabel =		new JLabel("Enter the system:");
 	
 	private JLabel userLabel = 		new JLabel("user name ");

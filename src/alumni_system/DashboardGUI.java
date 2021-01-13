@@ -11,20 +11,28 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.ListModel;
 
 import java.net.URI;
 
 public class DashboardGUI {
 	
+	/**
+	 * A Grad to be viewed and modified via this dashboard
+	 */
 	private Grad grad;
-	ArrayList<Course> alSysCourses;	// for editResume start
+	
+	/**
+	 *  A list of optional courses for editResume.start()
+	 */
+	ArrayList<Course> alSysCourses;
 	
 	private AlumniSystemGUI gui =	new AlumniSystemGUI();
+
+	// GUI Components ///////////////////////////////////////
+
 	private JLabel titleLabel =		new JLabel("Welcome");
 	
 	private JLabel idLabel =			new JLabel();
@@ -45,15 +53,14 @@ public class DashboardGUI {
 	private EditResumeGUI editResume =		new EditResumeGUI();
 
 	/////////////////////////////////////////////////////////
-	
-	public DashboardGUI(Grad grad, ArrayList<Course> alSysCourses) {
-		this.grad = grad;
+
+	public DashboardGUI(ArrayList<Course> alSysCourses) {
 		this.alSysCourses = alSysCourses;
 		
 		initComponents();
 		addComponents();
 	}
-
+	
 	protected void initComponents() {
 		
 		titleLabel.setBounds(10, 20, 140, 25);
@@ -69,15 +76,7 @@ public class DashboardGUI {
 		statusLabel.setBounds(150, 110, 165, 25);
 		
 		coursesTitleLabel.setBounds(10, 140, 140, 25);
-		
-		try {
-			for (Course course : grad.getResume()) {
-				resume.addElement(course);
-			}			
-		}
-		catch (Exception e) {
-		}
-		
+
 		courseList.setLayoutOrientation(JList.VERTICAL);
 		courseList.setVisibleRowCount(2);
 		courseListScroller.setPreferredSize(new Dimension(250, 80));
@@ -109,19 +108,21 @@ public class DashboardGUI {
 	
 		gui.panel.add(editResume.getCourseListScroller());
 		gui.panel.add(editResume.getAddingButton());
-
+		gui.panel.add(editResume.getRemovingButton());
 	}
 	
-	public void start() {
+	public void start(Grad grad) {
+		this.grad = grad;
 		
-		// profile view
+		// profile view components
 		idLabel.setText(grad.getId());
 		startLinkedinLink();
 		statusLabel.setText(grad.getStatus());
 		
-		// profile edit
+		// profile edit components
 		editLinkedin.start(grad);
 		editStatus.start(grad);
+		startListModel();
 		editResume.start(grad, alSysCourses);
 		
 		gui.start();
@@ -144,5 +145,15 @@ public class DashboardGUI {
 		});
 	}
 	
+	private void startListModel() {
+		
+		try {
+			for (Course course : grad.getResume()) {
+				resume.addElement(course);
+			}			
+		}
+		catch (Exception e) {
+		}
+	}
 	
 }

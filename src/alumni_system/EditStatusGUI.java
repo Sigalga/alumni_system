@@ -16,6 +16,8 @@ public class EditStatusGUI implements ActionListener {
 	
 	HashMap<String, JobHuntStat> actions = new HashMap<String, JobHuntStat>();
 	
+	// GUI Components ///////////////////////////////////////
+	
 	JRadioButton idleOption = new JRadioButton("Idle");
 	JRadioButton openOption = new JRadioButton("Open");
 	JRadioButton huntingOption = new JRadioButton("Hunting");
@@ -23,10 +25,6 @@ public class EditStatusGUI implements ActionListener {
     
 	/////////////////////////////////////////////////////////
 	
-	public EditStatusGUI(Grad grad) {
-		this.grad = grad;
-		initComponents();
-	}
 	public EditStatusGUI() {
 		initComponents();
 	}
@@ -56,7 +54,7 @@ public class EditStatusGUI implements ActionListener {
 	}
 	
 	public void start(Grad grad) {
-		setGrad(grad);
+		this.grad = grad;
 	}
 	
 	@Override
@@ -70,33 +68,17 @@ public class EditStatusGUI implements ActionListener {
 				+  grad.getStatus());
 	}
 
-	public void setGrad(Grad grad) {
-		this.grad = grad;
-	}
 	public JRadioButton getIdleOption() {
 		return idleOption;
-	}
-	public void setIdleOption(JRadioButton idleOption) {
-		this.idleOption = idleOption;
 	}
 	public JRadioButton getOpenOption() {
 		return openOption;
 	}
-	public void setOpenOption(JRadioButton openOption) {
-		this.openOption = openOption;
-	}
 	public JRadioButton getHuntingOption() {
 		return huntingOption;
-	}
-	public void setHuntingOption(JRadioButton huntingOption) {
-		this.huntingOption = huntingOption;
 	}
 	public ButtonGroup getOptions() {
 		return options;
 	}
-	public void setOptions(ButtonGroup options) {
-		this.options = options;
-	}
-	
 	
 }

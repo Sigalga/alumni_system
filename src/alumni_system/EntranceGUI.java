@@ -2,8 +2,19 @@ package alumni_system;
 
 public class EntranceGUI {
 	
+	/**
+	 * An AlumniSystem frame and a panel
+	 */
 	private AlumniSystemGUI gui = new AlumniSystemGUI();
+	
+	/**
+	 * GUI components for login of a registered grad
+	 */
 	private LoginGUI login;
+	
+	/**
+	 * GUI components for signing up of a new grad
+	 */
 	private SignupGUI signup;
 	
 	/////////////////////////////////////////////////////////
