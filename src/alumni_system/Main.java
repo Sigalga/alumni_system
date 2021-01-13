@@ -94,8 +94,8 @@ public class Main {
 		// Both open up for jobs, register and login to system
 		alSys.registerNewGrad(gradZehava);
 		alSys.registerNewGrad(gradDebb);
-		alSys.activate(gradZehava);
-		alSys.activate(gradDebb);
+//		alSys.activate(gradZehava);
+//		alSys.activate(gradDebb);
 		
 		// Javaist and Webist positions are posted in system
 		Job jobJavaist = new Job("Junior Java developer");

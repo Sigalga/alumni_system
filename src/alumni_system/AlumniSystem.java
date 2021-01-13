@@ -1,13 +1,13 @@
 package alumni_system;
 
 import java.util.ArrayList;
-//import java.io.File;
-//import java.io.FileInputStream;
-//import java.io.FileOutputStream;
-//import java.io.ObjectInputStream;
-//import java.io.ObjectOutputStream;
-//import java.io.FileNotFoundException;
-//import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class AlumniSystem {
 	private ArrayList<Course> courseList =		new ArrayList<Course>();
@@ -15,35 +15,36 @@ public class AlumniSystem {
 	private ArrayList<Grad> activeGrads =		new ArrayList<Grad>();
 	
 	private DashboardGUI dashboardGui =			new DashboardGUI(courseList);
-	
 	private ChangePasswordGUI chPassGui =		new ChangePasswordGUI(this);
 	
-	
 //	//> Arraylist to file serialization
-//	FileOutputStream fOut;
-//    ObjectOutputStream oOut;
-//    FileInputStream fIn;
-//    ObjectInputStream oIn;
+	FileOutputStream fOut;
+    ObjectOutputStream oOut;
+    FileInputStream fIn;
+    ObjectInputStream oIn;
 	
 	AlumniSystem() {
 		initCourseList();
 		
-//		//>
-//		try {
-//			fOut = new FileOutputStream(new File("myObjects.txt"));
-//		    oOut = new ObjectOutputStream(fOut);
-//		    
-//		    fIn = new FileInputStream(new File("myObjects.txt"));
-//            oIn = new ObjectInputStream(fIn);
-//		}
-//		catch (FileNotFoundException e) {
-//			System.out.println("File not found");
-//		}
-//		catch(IOException e) {
-//			System.out.println("Error initializing stream");
-//		}
-//		
-//		
+		//>
+		initFileStream();
+	}
+	
+	//>
+	private void initFileStream() {	
+		try {
+			fOut = new FileOutputStream("registeredGrads.ser");
+		    oOut = new ObjectOutputStream(fOut);
+		    fIn = new FileInputStream("registeredGrads.ser");
+            oIn = new ObjectInputStream(fIn);
+		}
+		catch (FileNotFoundException e) {
+			System.out.println("File not found");
+		}
+		catch(IOException e) {
+			System.out.println("Error initializing stream");
+		}
+		
 	}
 	
 	/**
@@ -61,6 +62,7 @@ public class AlumniSystem {
 	
 	// pre-login operations ////////////////////////////////////////
 	
+	//>
 	/**
 	 * Creates a new Grad object with an auto-generated ID and OTP,
 	 * and adds it to the system's database 
@@ -69,66 +71,52 @@ public class AlumniSystem {
 	 */
 	public void registerNewGrad(String firstName, String lastName) {
 		
+		System.out.println("\n////////////registerNewGrad::read");
+		readListFromFile(registeredGrads);
+		
 		// make a Grad object
-//		Grad newGrad = new Grad(firstName, lastName, this);
 		Grad newGrad = new Grad(firstName, lastName);
 		
 		// add to list
 		registeredGrads.add(newGrad);
 		
-//		//> add to file
-//		try {
-//			
-//			System.out.println(newGrad.toString());
-//			oOut.writeObject(newGrad);
+		//>
+		System.out.println("////////////registerNewGrad::write");
+		writeListToFile(registeredGrads);
+ 
+	}
+	
+	//> add to file
+	private void writeListToFile(ArrayList<Grad> gradList) {
+		try {
+			System.out.println("write list: " + gradList.toString());
+			oOut.writeObject(gradList);
+			oOut.flush();
 //			oOut.close();
 //			fOut.close();
-//			
-//			Grad regGrad = (Grad) oIn.readObject();
-//			System.out.println("wrote and read grad: " + regGrad.toString());
-//			
+		}
+		catch (IOException e) {
+			System.out.println("Error writing object to file");
+		}
+	}
+	
+	//> read from file
+	@SuppressWarnings("unchecked")
+	private void readListFromFile(ArrayList<Grad> gradList) {
+		try {
+			gradList = (ArrayList<Grad>) oIn.readObject();
+			System.out.println("read list: " + gradList.toString());
 //			oIn.close();
 //			fIn.close();
-//		
-//		}
-//		catch (IOException e) {
-//			System.out.println("Error writing object to file");
-//		}
-//		catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		try {
-//            FileOutputStream f = new FileOutputStream(new File("myObjects.txt"));
-//            ObjectOutputStream o = new ObjectOutputStream(f);
-//
-//            // Write objects to file
-//            o.writeObject(newGrad);
-//
-//            o.close();
-//            f.close();
-//
-//            FileInputStream fi = new FileInputStream(new File("myObjects.txt"));
-//            ObjectInputStream oi = new ObjectInputStream(fi);
-//
-//            // Read objects
-//            Course pr1 = (Course) oi.readObject();
-//
-//            System.out.println(pr1.toString());
-//
-//            oi.close();
-//            fi.close();
-//
-//        } catch (FileNotFoundException e) {
-//            System.out.println("File not found");
-//        } catch (IOException e) {
-//            System.out.println("Error initializing stream");
-//        }
-//		catch (ClassNotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
+		}
+		catch (IOException e) {
+			System.out.println("Error reading object from file");
+		}
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
+	
 	protected void registerNewGrad(Grad newGrad) {	
 		registeredGrads.add(newGrad);
 	}
@@ -141,6 +129,7 @@ public class AlumniSystem {
 	 * @return true if login is successful
 	 */
 	public boolean shecodesLogin(String id, String password) {
+		readListFromFile(registeredGrads);
 		
 		// first login of a registered user
 		for (Grad grad : registeredGrads) {	

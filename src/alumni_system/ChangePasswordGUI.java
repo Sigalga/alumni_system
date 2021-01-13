@@ -74,7 +74,6 @@ public class ChangePasswordGUI implements ActionListener {
 		
 		stop();
 		
-		// first login required tasks
 		alSys.firstLogin(grad);
 	}
 	

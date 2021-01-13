@@ -28,7 +28,7 @@ public class Grad implements Serializable{
 	// members //////////////////////////////////////////////////////
 	
 	private static final long serialVersionUID = 1L;
-
+	
 	private String id;
 	private String password =			new String(generateOtp());
 	private String linkedinPage =		new String();
